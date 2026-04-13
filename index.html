@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MOTOCAM BUS — Réservation de Billets</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="goHome()">MOTO<span>CAM</span> BUS</div>
+  <nav>
+    <a onclick="goHome()" class="active">Accueil</a>
+    <a onclick="showAgenciesPage()">Agences</a>
+    <a onclick="alert('Fonctionnalité à venir !')">Mes Billets</a>
+  </nav>
+</header>
+
+<!-- PAGE: HOME -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-tag">🇨🇲 Plateforme Officielle de Voyage au Cameroun</div>
+    <h1 class="hero-title">Voyagez à travers<br/>le <em>Cameroun</em><br/>sans frontières</h1>
+    <p class="hero-sub">Réservez et achetez vos billets de bus auprès de toutes les grandes agences — Yaoundé, Douala, Bamenda et au-delà.</p>
+    <div class="search-box">
+      <div class="search-grid">
+        <div class="form-group">
+          <label class="form-label">Départ</label>
+          <select id="s-from"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Destination</label>
+          <select id="s-to"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" id="s-date"/>
+        </div>
+        <button class="btn btn-gold" onclick="doSearch()">Rechercher</button>
+      </div>
+    </div>
+  </section>
+  <div class="section">
+    <p class="section-title">Nos Agences Partenaires</p>
+    <p class="section-sub" id="agency-count"></p>
+    <div class="agencies-grid" id="home-agencies"></div>
+  </div>
+</div>
+
+<!-- PAGE: AGENCIES -->
+<div id="page-agencies" class="page">
+  <div class="content-wrap">
+    <button class="back-btn" onclick="goHome()">← Retour</button>
+    <p class="page-title">Choisir une Agence</p>
+    <p class="page-sub">Sélectionnez l'agence de votre choix pour voir les horaires disponibles</p>
+    <div class="agencies-grid" id="agencies-list"></div>
+  </div>
+</div>
+
+<!-- PAGE: RESULTS -->
+<div id="page-results" class="page">
+  <div class="content-wrap">
+    <button class="back-btn" onclick="showAgenciesPage()">← Agences</button>
+    <div class="steps-bar">
+      <span class="step done"><span class="step-num">✓</span>Agence</span>
+      <span class="step-arrow">›</span>
+      <span class="step active"><span class="step-num">2</span>Horaires</span>
+      <span class="step-arrow">›</span>
+      <span class="step"><span class="step-num">3</span>Réservation</span>
+      <span class="step-arrow">›</span>
+      <span class="step"><span class="step-num">4</span>Paiement</span>
+    </div>
+    <div id="agency-bar-results"></div>
+    <div id="route-display"></div>
+    <div class="trips-list" id="trips-container"></div>
+  </div>
+</div>
+
+<!-- PAGE: BOOKING -->
+<div id="page-booking" class="page">
+  <div class="content-wrap">
+    <button class="back-btn" onclick="showPage('results')">← Horaires</button>
+    <div class="steps-bar">
+      <span class="step done"><span class="step-num">✓</span>Agence</span>
+      <span class="step-arrow">›</span>
+      <span class="step done"><span class="step-num">✓</span>Horaires</span>
+      <span class="step-arrow">›</span>
+      <span class="step active"><span class="step-num">3</span>Réservation</span>
+      <span class="step-arrow">›</span>
+      <span class="step"><span class="step-num">4</span>Paiement</span>
+    </div>
+    <p class="page-title">Type de réservation</p>
+    <p class="page-sub">Souhaitez-vous acheter votre billet maintenant ou simplement réserver votre place ?</p>
+    <div class="type-grid">
+      <div class="type-card" id="type-buy" onclick="selectBookingType('buy')">
+        <div class="type-icon">🎫</div>
+        <div class="type-title">Acheter maintenant</div>
+        <p class="type-desc">Payez votre billet en ligne via Orange Money. Votre place est confirmée immédiatement.</p>
+      </div>
+      <div class="type-card" id="type-reserve" onclick="selectBookingType('reserve')">
+        <div class="type-icon">📋</div>
+        <div class="type-title">Réserver ma place</div>
+        <p class="type-desc">Réservez gratuitement et payez sur place à l'agence le jour du voyage.</p>
+      </div>
+    </div>
+    <p class="form-label" style="margin-bottom:14px;">Informations passager</p>
+    <div class="form-grid2">
+      <div class="form-group">
+        <label class="form-label">Nom</label>
+        <input type="text" id="p-nom" placeholder="MBARGA"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Prénom</label>
+        <input type="text" id="p-prenom" placeholder="Jean-Pierre"/>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:20px;">
+      <label class="form-label">Numéro CNI</label>
+      <input type="text" id="p-cni" placeholder="123456789"/>
+    </div>
+    <div class="summary-box" id="booking-summary"></div>
+    <button class="btn btn-gold btn-full" onclick="proceedFromBooking()">Continuer →</button>
+  </div>
+</div>
+
+<!-- PAGE: PAYMENT -->
+<div id="page-payment" class="page">
+  <div class="content-wrap">
+    <button class="back-btn" onclick="showPage('booking')">← Réservation</button>
+    <div class="steps-bar">
+      <span class="step done"><span class="step-num">✓</span>Agence</span>
+      <span class="step-arrow">›</span>
+      <span class="step done"><span class="step-num">✓</span>Horaires</span>
+      <span class="step-arrow">›</span>
+      <span class="step done"><span class="step-num">✓</span>Réservation</span>
+      <span class="step-arrow">›</span>
+      <span class="step active"><span class="step-num">4</span>Paiement</span>
+    </div>
+    <p class="page-title">Paiement</p>
+    <p class="page-sub" id="pay-amount"></p>
+    <div class="pay-grid">
+      <div class="pay-card" id="pay-orange" onclick="selectPayment('orange')">
+        <div class="pay-icon">🟠</div>
+        <div class="pay-name">Orange Money</div>
+        <div class="pay-desc">Paiement mobile instantané</div>
+      </div>
+      <div class="pay-card" id="pay-onsite" onclick="selectPayment('onsite')">
+        <div class="pay-icon">🏢</div>
+        <div class="pay-name">Payer sur place</div>
+        <div class="pay-desc">À l'agence avant le départ</div>
+      </div>
+    </div>
+    <div id="om-section" style="display:none;">
+      <div class="alert alert-orange">📱 Vous recevrez une notification Orange Money pour confirmer. Assurez-vous que votre solde est suffisant.</div>
+      <div class="form-group">
+        <label class="form-label">Numéro Orange Money</label>
+        <input type="tel" id="om-phone" placeholder="6XX XXX XXX"/>
+      </div>
+    </div>
+    <div id="onsite-section" style="display:none;">
+      <div class="alert alert-green">🏢 Votre réservation sera maintenue <strong>24h</strong>. Présentez-vous à l'agence avec votre numéro de réservation.</div>
+    </div>
+    <button class="btn btn-gold btn-full" onclick="proceedPayment()">Confirmer le paiement →</button>
+    <button class="btn btn-outline btn-full" onclick="showPage('booking')">Retour</button>
+  </div>
+</div>
+
+<!-- PAGE: CONFIRMATION -->
+<div id="page-confirmation" class="page">
+  <div class="content-wrap">
+    <div class="conf-wrap fade-up">
+      <div class="conf-icon" id="conf-icon">✅</div>
+      <div class="conf-title" id="conf-title"></div>
+      <p style="color:var(--muted);font-size:.88rem;margin-bottom:8px;">Votre numéro de référence</p>
+      <div class="conf-ref" id="conf-ref"></div>
+      <div class="summary-box" id="conf-summary" style="text-align:left;"></div>
+      <p class="conf-note" id="conf-note"></p>
+      <button class="btn btn-gold btn-full" style="margin-top:28px;" onclick="goHome()">Retour à l'accueil</button>
+    </div>
+  </div>
+</div>
+
+<footer>MOTOCAM BUS &nbsp;·&nbsp; © 2025 &nbsp;·&nbsp; Tous droits réservés &nbsp;·&nbsp; Made in 🇨🇲</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
