@@ -1,10 +1,10 @@
 // ============ CONFIRMATION + FIREBASE ============
 async function buildConfirmation() {
-  const isReserve = state.bookingType === "reserve";
-  const isOnsite  = state.paymentMethod === "onsite";
-  const t  = state.trip;
-  const ag = state.agency;
-  const p  = state.passenger;
+  const isReserve = city.bookingType === "reserve";
+  const isOnsite  = city.paymentMethod === "onsite";
+  const t  = city.trip;
+  const ag = city.agency;
+  const p  = city.passenger;
   let icon, title, note;
   if (isReserve) {
     icon  = " ";
@@ -43,15 +43,15 @@ async function buildConfirmation() {
   await saveReservation({
     reference:       CONF_REF,
     agence:          ag.name,
-    depart:          state.from,
-    destination:     state.to,
-    date:            state.date,
+    depart:          city.from,
+    destination:     city.to,
+    date:            city.date,
     heure:           t.depart,
     arrivee:         t.arrivee,
     classe:          t.classe,
     prix:            t.prix,
-    typeReservation: state.bookingType,
-    paiement:        state.paymentMethod,
+    typeReservation: city.bookingType,
+    paiement:        city.paymentMethod,
     nom:             p.nom,
     prenom:          p.prenom,
     cni:             p.cni
