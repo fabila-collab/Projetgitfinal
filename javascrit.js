@@ -1,4 +1,4 @@
-// ============ DONNÉES ============
+
 
 const VILLES = ["Yaoundé","Douala","Bafoussam","Bamenda","Ngaoundéré","Garoua","Maroua","Limbe","Buea","Kribi","Ébolowa","Kumba","Dschang"];
 
@@ -20,7 +20,7 @@ const SCHEDULES = [
   { id:6, depart:"22:00", arrivee:"06:00", duree:"8h00", prix:5000, classe:"Nuit",     places:8  },
 ];
 
-// ============ STATE ============
+
 
 let state = {
   from: "", to: "", date: "",
@@ -31,7 +31,7 @@ let state = {
 
 const CONF_REF = "BUS" + Math.random().toString(36).substr(2,8).toUpperCase();
 
-// ============ INIT ============
+
 
 window.onload = function() {
   document.getElementById("s-date").min = new Date().toISOString().split("T")[0];
@@ -51,7 +51,6 @@ function fillSelect(id, options) {
   });
 }
 
-// ============ NAVIGATION ============
 
 function showPage(name) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
@@ -67,7 +66,7 @@ function goHome() {
   showPage("home");
 }
 
-// ============ RECHERCHE ============
+
 
 function doSearch() {
   state.from = document.getElementById("s-from").value;
@@ -78,7 +77,7 @@ function doSearch() {
   showAgenciesPage();
 }
 
-// ============ PAGE AGENCES ============
+
 
 function showAgenciesPage() {
   state.agency = null;
@@ -110,7 +109,7 @@ function renderAgenciesGrid(containerId, isHome) {
   });
 }
 
-// ============ RÉSULTATS ============
+
 
 function selectAgency(ag) {
   state.agency = ag;
@@ -168,7 +167,7 @@ function buildResultsPage() {
   });
 }
 
-// ============ RÉSERVATION ============
+
 
 function selectTrip(tripId) {
   state.trip = SCHEDULES.find(t => t.id === tripId);
@@ -207,7 +206,7 @@ function proceedFromBooking() {
   else { buildPaymentPage(); showPage("payment"); }
 }
 
-// ============ PAIEMENT ============
+
 
 function buildPaymentPage() {
   const t = state.trip;
@@ -237,7 +236,7 @@ function proceedPayment() {
   showPage("confirmation");
 }
 
-// ============ CONFIRMATION ============
+
 
 function buildConfirmation() {
   const isReserve = state.bookingType === "reserve";
