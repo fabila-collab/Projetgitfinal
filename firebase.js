@@ -1,5 +1,3 @@
-// ============ FIREBASE CONFIG ============
-// Remplace par TES valeurs depuis Firebase Console
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
@@ -18,7 +16,7 @@ const app  = initializeApp(firebaseConfig);
 const db   = getFirestore(app);
 const auth = getAuth(app);
 
-// ============ SAUVEGARDER UNE RÉSERVATION ============
+// SAUVEGARDER UNE RÉSERVATION
 
 export async function saveReservation(data) {
   try {
@@ -48,7 +46,7 @@ export async function saveReservation(data) {
   }
 }
 
-// ============ CRÉER UN COMPTE UTILISATEUR ============
+//  CRÉER UN COMPTE UTILISATEUR
 
 export async function registerUser(email, password, nom, prenom) {
   try {
@@ -68,7 +66,7 @@ export async function registerUser(email, password, nom, prenom) {
   }
 }
 
-// ============ CONNEXION UTILISATEUR ============
+// CONNEXION UTILISATEUR 
 
 export async function loginUser(email, password) {
   try {
@@ -80,7 +78,7 @@ export async function loginUser(email, password) {
   }
 }
 
-// ============ VOIR TOUTES LES RÉSERVATIONS ============
+//  VOIR TOUTES LES RÉSERVATIONS 
 
 export async function getAllReservations() {
   const querySnapshot = await getDocs(collection(db, "reservations"));
